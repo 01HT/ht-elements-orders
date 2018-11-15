@@ -56,6 +56,7 @@ class HTElementsOrdersItem extends LitElement {
       #header {
         display: flex;
         justify-content: space-between;
+        align-items:center;
         font-size: 16px;
         max-width: 140px;
         color: var(--accent-color);
