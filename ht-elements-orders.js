@@ -37,7 +37,6 @@ class HTElementsOrders extends LitElement {
         min-height: 20px;
         width: 20px;
         height: 20px;
-        margin-right: 4px;
       }
 
       #container {
@@ -53,6 +52,10 @@ class HTElementsOrders extends LitElement {
         display:flex;
         align-items:center;
         position:relative;
+     }
+
+     .type iron-icon {
+        margin-right: 4px;    
      }
 
      .amount {
@@ -82,6 +85,11 @@ class HTElementsOrders extends LitElement {
 
      .paid-via-value {
        font-weight: 500;
+     }
+
+     .receipt-icon {
+       color: #4285f4;
+       cursor: pointer;
      }
     </style>
     <iron-iconset-svg size="24" name="ht-elements-orders">
@@ -271,9 +279,23 @@ class HTElementsOrders extends LitElement {
     if (ordertypeId === "v2m2Mq3clhUhyeex5Xkp") {
       if (paid) {
         let template = generateReceipt(orderData);
-        htmlData = html`<div class="type" @click=${_ => {
-          window.open().document.write(template);
-        }}><iron-icon icon="ht-elements-orders:file-download"></iron-icon></div>`;
+        htmlData = html`<iron-icon class="receipt-icon" @click=${_ => {
+          let iframe = document.createElement("iframe");
+          iframe.style = "position:fixed;visibility:hidden";
+          document.body.appendChild(iframe);
+          let iframeWindow = iframe.contentWindow;
+          let doc = iframeWindow.document;
+          doc.open();
+          // iframeWindow.addEventListener("receipt-ready", e => {
+          //  e.stopPropagation();
+          //  document.body.removeChild(iframe);
+          // });
+          doc.write(template);
+          doc.close();
+          setTimeout(_ => {
+            document.body.removeChild(iframe);
+          }, 6000);
+        }} icon="ht-elements-orders:file-download"></iron-icon>`;
       }
     }
     // payout

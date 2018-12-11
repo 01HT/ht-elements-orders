@@ -1,5 +1,3 @@
-import "/node_modules/html2pdf/dist/include/html2pdf.es.js";
-
 export function generateReceipt(orderData) {
   let template = `<!DOCTYPE html>
     <html lang="en">
@@ -198,18 +196,20 @@ export function generateReceipt(orderData) {
             <div id="nds">* VAT/GST presently, paid directly by 01HT only in Russian Federation</div>
         </div>
     </div>
-    <!--<script src="/node_modules/jsPDF/dist/jspdf.min.js"></script>-->
+    <script src="/node_modules/@01ht/ht-elements-orders/html2pdf.bundle.js"></script>
     <script>
-    import "/node_modules/html2pdf/dist/include/html2pdf.es.js";
-    var element = document.body;
-    var opt = {
-        margin:      0.5,
-        filename:     'receipt-${orderData.orderNumber}.pdf',
-        html2canvas:  { scale: 2 },
-        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-    };
-    html2pdf().set(opt).from(element).save();
-</script>
+        var element = document.body;
+        var opt = {
+        margin: 0.5,
+        filename: "receipt-${orderData.orderNumber}.pdf",
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "in", format: "letter", orientation: "portrait" }
+        };
+        html2pdf()
+        .set(opt)
+        .from(element)
+        .save()
+    </script>
     </body>
     </html>`;
   return template;
