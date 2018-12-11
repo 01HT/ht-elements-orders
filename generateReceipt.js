@@ -126,7 +126,7 @@ export function generateReceipt(orderData) {
         <circle cx="25" cy="95" r="25" fill="#83b735"/>
         </svg>
     </div>
-    <h1>Receipt</h1>
+    <h1>Invoice</h1>
     <p>We received payment for your order. Thanks for your business!</p>
     <p>Questions? please contact <a href="mailto:support@01.ht">support@01.ht</a></p>
     <table id="info">
@@ -201,7 +201,7 @@ export function generateReceipt(orderData) {
         var element = document.body;
         var opt = {
         margin: 0.5,
-        filename: "receipt-${orderData.orderNumber}.pdf",
+        filename: "invoice-${orderData.orderNumber}.pdf",
         html2canvas: { scale: 2 },
         jsPDF: { unit: "in", format: "letter", orientation: "portrait" }
         };
