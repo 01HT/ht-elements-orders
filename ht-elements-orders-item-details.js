@@ -10,7 +10,7 @@ class HTElementsOrdersItemDetails extends LitElement {
     ${SharedStyles}
     <style>
     :host {
-      display: flex;
+      display: block;
       position: relative;
       box-sizing:border-box;
     }
@@ -33,13 +33,15 @@ class HTElementsOrdersItemDetails extends LitElement {
 
     #container {
       margin-top: 8px;
-      display: grid;
-      grid-gap: 16px;
+      display: flex;
+      flex-direction: column;
+      /* grid-gap: 16px; */
       width: 100%;
     }
 
     .item {
       display:flex;
+      margin-bottom: 16px;
     }
 
     .item span {

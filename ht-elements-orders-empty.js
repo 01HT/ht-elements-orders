@@ -28,7 +28,7 @@ class HTElementsOrdersEmpty extends LitElement {
             display:flex;
             align-items:center;
             flex-direction:column;
-            margin-top:32px;
+            margin: 32px auto 32px auto;
         }
 
         #text {
@@ -48,7 +48,7 @@ class HTElementsOrdersEmpty extends LitElement {
         }/image/upload/v1541516058/apps/elements/pages/my-orders/empty.svg" alt="No orders">
         <div id="text" class="mdc-typography--headline5">У вас пока нет заказов</div>
         <div id="sub-text">
-          <div id="sub">Для формирования заказа воспользуйтесь нашим каталогом</div>
+          <div id="sub">Для покупки воспользуйтесь нашим каталогом</div>
         </div>
         <a href="/catalog">
             <paper-button raised>Каталог</paper-button>
