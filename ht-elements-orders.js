@@ -15,6 +15,7 @@ import "./ht-elements-orders-item-details.js";
 import "./ht-elements-orders-grid-styles.js";
 
 import { generateReceipt } from "./generateReceipt.js";
+import { generateReport } from "./generateReport.js";
 
 class HTElementsOrders extends LitElement {
   render() {
@@ -91,6 +92,10 @@ class HTElementsOrders extends LitElement {
        color: #4285f4;
        cursor: pointer;
      }
+
+     .waiting {
+       color: #FFA000;
+     }
     </style>
     <iron-iconset-svg size="24" name="ht-elements-orders">
       <svg>
@@ -119,7 +124,7 @@ class HTElementsOrders extends LitElement {
                 <vaadin-grid-column width="50px" header="№" .renderer="${
                   this.numberRenderer
                 }"></vaadin-grid-column>
-                <vaadin-grid-column width="110px" header="Статус" .renderer="${
+                <vaadin-grid-column width="160px" header="Статус" .renderer="${
                   this.statusRenderer
                 }"></vaadin-grid-column>
                 <vaadin-grid-column width="40px"  header="Тип" .renderer="${
@@ -180,12 +185,23 @@ class HTElementsOrders extends LitElement {
     let htmlData = html``;
     const statusText = rowData.item.statusText;
     const orderNumber = rowData.item.orderNumber;
-    let paid = rowData.item.paid;
-    if (paid) {
-      htmlData = html`<div class="type"><iron-icon class="positive" icon="ht-elements-orders:check"></iron-icon><span>${statusText}</span></div>`;
-    } else {
-      htmlData = html`<a class="type" href="/checkout/${orderNumber}"><iron-icon icon="ht-elements-orders:schedule"></iron-icon>Оплата</a>`;
+    const ordertypeId = rowData.item.ordertypeId;
+    const completed = rowData.item.completed;
+    if (ordertypeId === "v2m2Mq3clhUhyeex5Xkp") {
+      if (completed) {
+        htmlData = html`<div class="type"><iron-icon class="positive" icon="ht-elements-orders:check"></iron-icon><span>${statusText}</span></div>`;
+      } else {
+        htmlData = html`<a class="type" href="/checkout/${orderNumber}"><iron-icon icon="ht-elements-orders:schedule"></iron-icon>${statusText}</a>`;
+      }
     }
+    if (ordertypeId === "83cNtcXdV0SQhXgU5Ufy") {
+      if (completed) {
+        htmlData = html`<div class="type"><iron-icon class="positive" icon="ht-elements-orders:check"></iron-icon><span>${statusText}</span></div>`;
+      } else {
+        htmlData = html`<div class="type waiting" href="/checkout/${orderNumber}"><iron-icon icon="ht-elements-orders:schedule"></iron-icon>${statusText}</div>`;
+      }
+    }
+
     render(htmlData, root);
   }
 
@@ -199,9 +215,13 @@ class HTElementsOrders extends LitElement {
   }
 
   amountRenderer(root, column, rowData) {
+    let amount = `$${rowData.item.amount}`;
+    if (amount === "$0") {
+      amount = "-";
+    }
     render(
       html`
-        <span class="amount">$${rowData.item.amount}</span>
+        <span class="amount">${amount}</span>
       `,
       root
     );
@@ -236,21 +256,26 @@ class HTElementsOrders extends LitElement {
     // only render the checkbox once, to avoid re-creating during subsequent calls
     let checkboxElem = root.querySelector("vaadin-checkbox");
     const orderNumber = rowData.item.orderNumber;
+    const ordertypeId = rowData.item.ordertypeId;
     let htmlData = html``;
     // if (orderNumber && checkboxElem === null) {
-    htmlData = html`
+    if (ordertypeId === "v2m2Mq3clhUhyeex5Xkp") {
+      htmlData = html`
       <vaadin-checkbox @checked-changed="${e =>
         this._toggleDetails(
           e.detail.value,
           root.item
         )}"> Показать детали</vaadin-checkbox>
     `;
-    render(htmlData, root);
-    // store the item to avoid grid virtual scrolling reusing DOM nodes to mess it up
-    root.item = rowData.item;
-    if (root.querySelector("vaadin-checkbox")) {
-      root.querySelector("vaadin-checkbox").checked =
-        this.grid.detailsOpenedItems.indexOf(root.item) > -1;
+      render(htmlData, root);
+      // store the item to avoid grid virtual scrolling reusing DOM nodes to mess it up
+      root.item = rowData.item;
+      if (root.querySelector("vaadin-checkbox")) {
+        root.querySelector("vaadin-checkbox").checked =
+          this.grid.detailsOpenedItems.indexOf(root.item) > -1;
+      }
+    } else {
+      render(html`-`, root);
     }
   }
 
@@ -275,6 +300,7 @@ class HTElementsOrders extends LitElement {
     const ordertypeId = rowData.item.ordertypeId;
     const orderData = rowData.item;
     const paid = rowData.item.paid;
+    const completed = rowData.item.completed;
     // purchase
     if (ordertypeId === "v2m2Mq3clhUhyeex5Xkp") {
       if (paid) {
@@ -300,6 +326,22 @@ class HTElementsOrders extends LitElement {
     }
     // payout
     if (ordertypeId === "83cNtcXdV0SQhXgU5Ufy") {
+      if (completed) {
+        let template = generateReport(orderData);
+        htmlData = html`<iron-icon class="receipt-icon" @click=${_ => {
+          let iframe = document.createElement("iframe");
+          iframe.style = "position:fixed;visibility:hidden";
+          document.body.appendChild(iframe);
+          let iframeWindow = iframe.contentWindow;
+          let doc = iframeWindow.document;
+          doc.open();
+          doc.write(template);
+          doc.close();
+          setTimeout(_ => {
+            document.body.removeChild(iframe);
+          }, 6000);
+        }} icon="ht-elements-orders:file-download"></iron-icon>`;
+      }
     }
     render(htmlData, root);
   }

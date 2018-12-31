@@ -9,6 +9,7 @@
     "@polymer/lit-element": "^0.6.1",
     "@polymer/iron-icon": "^3.0.1",
     "@polymer/iron-iconset-svg": "^3.0.1",
+    "@polymer/paper-button": "^3.0.1",
     "@01ht/ht-image": "01ht/ht-image",
     "@01ht/ht-date": "01ht/ht-date",
     "html2pdf.js": "0.9.1",

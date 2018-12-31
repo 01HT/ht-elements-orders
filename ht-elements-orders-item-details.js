@@ -26,16 +26,15 @@ class HTElementsOrdersItemDetails extends LitElement {
     }
 
     ht-image {
-        width: 80px;
-        border-radius: 3px;
-        overflow: hidden;
+      width: 80px;
+      border-radius: 3px;
+      overflow: hidden;
     }
 
     #container {
       margin-top: 8px;
       display: flex;
       flex-direction: column;
-      /* grid-gap: 16px; */
       width: 100%;
     }
 
