@@ -85,7 +85,9 @@ class HTElementsOrdersItemDetails extends LitElement {
           items,
           data => html`<div class="item">
               <div>
-                <a class="image" href="/item/${data.nameInURL}/${data.itemId}">
+                <a class="image" href="/item/${data.nameInURL}/${
+            data.itemNumber
+          }">
                     <ht-image placeholder="${
                       window.cloudinaryURL
                     }/image/upload/c_scale,f_auto,w_60/v${data.image.version}/${
@@ -99,13 +101,15 @@ class HTElementsOrdersItemDetails extends LitElement {
               </div>
               <div class="info">
                     <a class="name" href="/item/${data.nameInURL}/${
-            data.itemId
+            data.itemNumber
           }">${data.name}</a>
                     <div class="author">от <a href="/${
                       data.authorData.isOrg ? "organization" : "user"
-                    }/${data.authorData.uid}"> ${
-            data.authorData.displayName
-          }</a>
+                    }/${data.authorData.nameInURL}/${
+            data.authorData.isOrg
+              ? `${data.authorData.organizationNumber}`
+              : `${data.authorData.userNumber}`
+          }"> ${data.authorData.displayName}</a>
                     </div>
                     <div class="license"><a href="/sclv1">Single Commercial (SCLv1)</a></div>
                     <div class="price">Цена: <span>$${data.price}</span></div>
