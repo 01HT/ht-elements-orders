@@ -247,10 +247,11 @@ export function generateReport(orderData) {
     <script>
         var element = document.body;
         var opt = {
-        margin: 0.5,
-        filename: "invoice-${orderData.orderNumber}.pdf",
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: "in", format: "letter", orientation: "portrait" }
+          margin: 0.5,
+          filename: "invoice-${orderData.orderNumber}.pdf",
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+          pagebreak: { mode: 'avoid-all' }
         };
         html2pdf()
         .set(opt)
