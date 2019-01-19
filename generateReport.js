@@ -169,13 +169,13 @@ export function generateReport(orderData) {
         <td class="value">
         ${
           orderData.payoutData.payoutType === "bank_account"
-            ? `Bank account - ${orderData.payoutData.bankAccount.number}`
+            ? `Bank account - ${orderData.payoutData.number}`
             : ""
         }
         ${orderData.payoutData.payoutType === "swift" ? `SWIFT` : ""}
         ${
           orderData.payoutData.payoutType === "bank_card"
-            ? `Bank card - ${orderData.payoutData.bankCard.number}`
+            ? `Bank card - ${orderData.payoutData.number}`
             : ""
         }
         </td>
@@ -247,11 +247,11 @@ export function generateReport(orderData) {
     <script>
         var element = document.body;
         var opt = {
-          margin: 0.5,
-          filename: "invoice-${orderData.orderNumber}.pdf",
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
-          pagebreak: { mode: 'avoid-all' }
+            margin: 0.5,
+            filename: "invoice-${orderData.orderNumber}.pdf",
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+            pagebreak: { mode: 'avoid-all' }
         };
         html2pdf()
         .set(opt)
