@@ -173,8 +173,8 @@ export function generateReceipt(orderData) {
   for (let item of orderData.items) {
     template += `<tr>
                 <td>${item.quantity}</td>
-                <td class="td-description">${item.name}</td>
-                <td class="td-amount">$${item.price} USD</td>
+                <td class="td-description">${item.name} (SCL license)</td>
+                <td class="td-amount">$${item.price}</td>
             </tr>`;
   }
 
@@ -200,11 +200,11 @@ export function generateReceipt(orderData) {
     <script>
         var element = document.body;
         var opt = {
-          margin: 0.5,
-          filename: "invoice-${orderData.orderNumber}.pdf",
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
-          pagebreak: { mode: 'avoid-all' }
+            margin: 0.5,
+            filename: "invoice-${orderData.orderNumber}.pdf",
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+            pagebreak: { mode: 'avoid-all' }
         };
         html2pdf()
         .set(opt)

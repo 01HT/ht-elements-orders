@@ -17,6 +17,8 @@ import "./ht-elements-orders-grid-styles.js";
 import { generateReceipt } from "./generateReceipt.js";
 import { generateReport } from "./generateReport.js";
 
+import { callFirebaseHTTPFunction } from "@01ht/ht-client-helper-functions";
+
 class HTElementsOrders extends LitElement {
   render() {
     const { items } = this;
@@ -116,7 +118,6 @@ class HTElementsOrders extends LitElement {
           ? html`<ht-elements-orders-empty></ht-elements-orders-empty>`
           : html`
           <h1 class="mdc-typography--headline5">Мои заказы</h1>
-          <p id="info">Заказы в статусе "Оплата", переходят в архив через 7 дней после создания.</p>
             <div id="table">
                 <vaadin-grid .items=${items} .rowDetailsRenderer="${
               this.rowDetailsRenderer
@@ -124,10 +125,10 @@ class HTElementsOrders extends LitElement {
                 <vaadin-grid-column width="50px" header="№" .renderer="${
                   this.numberRenderer
                 }"></vaadin-grid-column>
-                <vaadin-grid-column width="160px" header="Статус" .renderer="${
+                <vaadin-grid-column width="170px" header="Статус" .renderer="${
                   this.statusRenderer
                 }"></vaadin-grid-column>
-                <vaadin-grid-column width="40px"  header="Тип" .renderer="${
+                <vaadin-grid-column width="100px"  header="Тип" .renderer="${
                   this.typeRenderer
                 }"></vaadin-grid-column>
                 <vaadin-grid-column width="120px" header="Дата" .renderer="${
@@ -139,7 +140,7 @@ class HTElementsOrders extends LitElement {
                 <vaadin-grid-column width="160px" header="Детали" .renderer="${
                   this._boundToggleDetailsRenderer
                 }"></vaadin-grid-column>  
-                <vaadin-grid-column width="100px" header="Накладная" .renderer="${
+                <vaadin-grid-column width="100px" header="Документы" .renderer="${
                   this.receiptRenderer
                 }"></vaadin-grid-column>       
             </div>
@@ -215,9 +216,13 @@ class HTElementsOrders extends LitElement {
   }
 
   amountRenderer(root, column, rowData) {
-    let amount = `$${rowData.item.amount}`;
-    if (amount === "$0") {
+    const ordertypeId = rowData.item.ordertypeId;
+    let amount = "-";
+    if (ordertypeId === "83cNtcXdV0SQhXgU5Ufy") {
       amount = "-";
+      if (rowData.item.completed) amount = `₽${rowData.item.totalAuthorReward}`;
+    } else {
+      amount = `$${rowData.item.amount}`;
     }
     render(
       html`
@@ -229,6 +234,7 @@ class HTElementsOrders extends LitElement {
 
   typeRenderer(root, column, rowData) {
     const ordertypeId = rowData.item.ordertypeId;
+    const ordertypesData = rowData.item.ordertypesData.name;
     let icon = "";
     switch (ordertypeId) {
       // purchase
@@ -240,7 +246,7 @@ class HTElementsOrders extends LitElement {
         icon = "payout";
         break;
     }
-    let htmlData = html`<div class="type"><iron-icon icon="ht-elements-orders:${icon}"></iron-icon></div>`;
+    let htmlData = html`<div class="type"><iron-icon icon="ht-elements-orders:${icon}"></iron-icon><span>${ordertypesData}</span></div>`;
     render(htmlData, root);
   }
 
@@ -299,6 +305,8 @@ class HTElementsOrders extends LitElement {
     let htmlData = ``;
     const ordertypeId = rowData.item.ordertypeId;
     const orderData = rowData.item;
+    const orderId = rowData.item.orderId;
+    const orderNumber = rowData.item.orderNumber;
     const paid = rowData.item.paid;
     const completed = rowData.item.completed;
     // purchase
@@ -327,15 +335,27 @@ class HTElementsOrders extends LitElement {
     // payout
     if (ordertypeId === "83cNtcXdV0SQhXgU5Ufy") {
       if (completed) {
-        let template = generateReport(orderData);
-        htmlData = html`<iron-icon class="receipt-icon" @click=${_ => {
+        htmlData = html`<iron-icon class="receipt-icon" @click=${async _ => {
+          let response = await callFirebaseHTTPFunction({
+            name: "httpsReportsPreview",
+            authorization: true,
+            options: {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({ orderId: orderId })
+            }
+          });
+          let reportHTML = response.reportHTML;
+          let documentHTML = await generateReport(reportHTML, orderNumber);
           let iframe = document.createElement("iframe");
           iframe.style = "position:fixed;visibility:hidden";
           document.body.appendChild(iframe);
           let iframeWindow = iframe.contentWindow;
           let doc = iframeWindow.document;
           doc.open();
-          doc.write(template);
+          doc.write(documentHTML);
           doc.close();
           setTimeout(_ => {
             document.body.removeChild(iframe);
