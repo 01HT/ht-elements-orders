@@ -173,7 +173,7 @@ export function generateReceipt(orderData) {
   for (let item of orderData.items) {
     template += `<tr>
                 <td>${item.quantity}</td>
-                <td class="td-description">${item.name} (SCL license)</td>
+                <td class="td-description">${item.name} (ESCL license)</td>
                 <td class="td-amount">$${item.price}</td>
             </tr>`;
   }

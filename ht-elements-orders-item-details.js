@@ -111,7 +111,9 @@ class HTElementsOrdersItemDetails extends LitElement {
               : `${data.authorData.userNumber}`
           }"> ${data.authorData.displayName}</a>
                     </div>
-                    <div class="license"><a href="/sclv1">Single Commercial (SCLv1)</a></div>
+                    <div class="license"><a href="https://github.com/01HT/elements-single-commercial-license/tree/v${
+                      data.license.version
+                    }" target="_blank" rel="noopener">Single Commercial (ESCL)</a></div>
                     <div class="price">Цена: <span>$${data.price}</span></div>
                     <div>Кол-во: <span>${data.quantity}</span></div>
                     <div class="amount">Сумма: <span>$${data.price.toFixed(2) *
