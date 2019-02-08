@@ -1,5 +1,5 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import { render } from "lit-html";
 
 import "@polymer/iron-iconset-svg/iron-iconset-svg.js";
@@ -20,11 +20,9 @@ import { generateReport } from "./generateReport.js";
 import { callFirebaseHTTPFunction } from "@01ht/ht-client-helper-functions";
 
 class HTElementsOrders extends LitElement {
-  render() {
-    const { items } = this;
-    return html`
-    ${SharedStyles}
-    <style>
+  static styles = [
+    window.SharedStyles,
+    css`<style>
       :host {
         display: block;
         position: relative;
@@ -98,7 +96,12 @@ class HTElementsOrders extends LitElement {
      .waiting {
        color: #FFA000;
      }
-    </style>
+    </style>`
+  ];
+
+  render() {
+    const { items } = this;
+    return html`
     <iron-iconset-svg size="24" name="ht-elements-orders">
       <svg>
           <defs>
@@ -119,7 +122,7 @@ class HTElementsOrders extends LitElement {
           : html`
           <h1 class="mdc-typography--headline5">Мои заказы</h1>
             <div id="table">
-                <vaadin-grid .items=${items} .rowDetailsRenderer="${
+                <vaadin-grid .items="${items}" .rowDetailsRenderer="${
               this.rowDetailsRenderer
             }">
                 <vaadin-grid-column width="50px" header="№" .renderer="${
@@ -148,10 +151,6 @@ class HTElementsOrders extends LitElement {
       }
     </div>
 `;
-  }
-
-  static get is() {
-    return "ht-elements-orders";
   }
 
   static get properties() {
@@ -367,4 +366,4 @@ class HTElementsOrders extends LitElement {
   }
 }
 
-customElements.define(HTElementsOrders.is, HTElementsOrders);
+customElements.define("ht-elements-orders", HTElementsOrders);

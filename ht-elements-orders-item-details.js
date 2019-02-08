@@ -1,14 +1,12 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import { repeat } from "lit-html/directives/repeat.js";
 import "@01ht/ht-image";
 
 class HTElementsOrdersItemDetails extends LitElement {
-  render() {
-    const { items } = this;
-    return html`
-    ${SharedStyles}
-    <style>
+  static styles = [
+    window.SharedStyles,
+    css`<style>
     :host {
       display: block;
       position: relative;
@@ -79,7 +77,12 @@ class HTElementsOrdersItemDetails extends LitElement {
     .price {
       margin-top: 4px;
     }
-    </style>
+    </style>`
+  ];
+
+  render() {
+    const { items } = this;
+    return html`
     <div id="container">
         ${repeat(
           items,
@@ -126,10 +129,6 @@ class HTElementsOrdersItemDetails extends LitElement {
 `;
   }
 
-  static get is() {
-    return "ht-elements-orders-item-details";
-  }
-
   static get properties() {
     return {
       items: { type: Array }
@@ -138,6 +137,6 @@ class HTElementsOrdersItemDetails extends LitElement {
 }
 
 customElements.define(
-  HTElementsOrdersItemDetails.is,
+  "ht-elements-orders-item-details",
   HTElementsOrdersItemDetails
 );
