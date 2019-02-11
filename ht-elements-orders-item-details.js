@@ -3,82 +3,87 @@ import { LitElement, html, css } from "lit-element";
 import { repeat } from "lit-html/directives/repeat.js";
 import "@01ht/ht-image";
 
+import { styles } from "@01ht/ht-theme/styles";
+
 class HTElementsOrdersItemDetails extends LitElement {
-  static styles = [
-    window.SharedStyles,
-    css`<style>
-    :host {
-      display: block;
-      position: relative;
-      box-sizing:border-box;
-    }
+  static get styles() {
+    return [
+      styles,
+      css`
+        :host {
+          display: block;
+          position: relative;
+          box-sizing: border-box;
+        }
 
-    a {
-      display:block;
-      color:inherit;
-      text-decoration: none;
-    }
+        a {
+          display: block;
+          color: inherit;
+          text-decoration: none;
+        }
 
-    a:hover {
-      text-decoration: underline;
-    }
+        a:hover {
+          text-decoration: underline;
+        }
 
-    ht-image {
-      width: 80px;
-      border-radius: 3px;
-      overflow: hidden;
-    }
+        ht-image {
+          width: 80px;
+          border-radius: 3px;
+          overflow: hidden;
+        }
 
-    #container {
-      margin-top: 8px;
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-    }
+        #container {
+          margin-top: 8px;
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+        }
 
-    .item {
-      display:flex;
-      margin-bottom: 16px;
-    }
+        .item {
+          display: flex;
+          margin-bottom: 16px;
+        }
 
-    .item span {
-      color: var(--secondary-text-color);
-    }
+        .item span {
+          color: var(--secondary-text-color);
+        }
 
-    .name {
-      font-size: 14px;
-      font-weight: 500;
-      line-height: 1.3;
-    }
+        .name {
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 1.3;
+        }
 
-    .author {
-      display:flex;
-      position:relative;
-      align-items:center;
-    }
+        .author {
+          display: flex;
+          position: relative;
+          align-items: center;
+        }
 
-    .author, .license {
-      color: var(--secondary-text-color);
-    }
+        .author,
+        .license {
+          color: var(--secondary-text-color);
+        }
 
-    .author a {
-      margin-left: 4px;
-    }
+        .author a {
+          margin-left: 4px;
+        }
 
-    .amount span {
-      color: var(--accent-color);
-      font-weight: 500;
-    }
+        .amount span {
+          color: var(--accent-color);
+          font-weight: 500;
+        }
 
-    .info {
-      margin-left: 16px;
-    }
+        .info {
+          margin-left: 16px;
+        }
 
-    .price {
-      margin-top: 4px;
-    }
-    </style>`
-  ];
+        .price {
+          margin-top: 4px;
+        }
+      `
+    ];
+  }
 
   render() {
     const { items } = this;

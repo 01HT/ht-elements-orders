@@ -19,85 +19,83 @@ import { generateReport } from "./generateReport.js";
 
 import { callFirebaseHTTPFunction } from "@01ht/ht-client-helper-functions";
 
+import { styles } from "@01ht/ht-theme/styles";
+
 class HTElementsOrders extends LitElement {
-  static styles = [
-    window.SharedStyles,
-    css`<style>
-      :host {
-        display: block;
-        position: relative;
-        box-sizing: border-box;
-      }
+  static get styles() {
+    return [
+      styles,
+      css`
+        vaadin-grid {
+          height: 100%;
+        }
 
-      vaadin-grid {
-        height: 100%;
-      }
+        iron-icon {
+          min-width: 20px;
+          min-height: 20px;
+          width: 20px;
+          height: 20px;
+        }
 
-      iron-icon {
-        min-width: 20px;
-        min-height: 20px;
-        width: 20px;
-        height: 20px;
-      }
+        #container {
+          margin-top: 32px;
+        }
 
-      #container {
-        margin-top: 32px;
-      }
+        #table {
+          height: calc(100vh - 264px);
+          margin-top: 24px;
+        }
 
-      #table {
-        height: calc(100vh - 264px);
-        margin-top: 24px;
-     }
+        .type {
+          display: flex;
+          align-items: center;
+          position: relative;
+        }
 
-     .type {
-        display:flex;
-        align-items:center;
-        position:relative;
-     }
+        .type iron-icon {
+          margin-right: 4px;
+        }
 
-     .type iron-icon {
-        margin-right: 4px;    
-     }
+        .amount {
+          font-weight: 500;
+          font-size: 13px;
+        }
 
-     .amount {
-        font-weight: 500;
-        font-size: 13px;
-     }
+        .positive {
+          color: var(--accent-color);
+        }
 
-     .positive {
-        color: var(--accent-color);
-     }
+        .waiting {
+          color: rgb(255, 153, 0);
+        }
 
-     .waiting {
-       color: rgb(255, 153, 0);
-     }
+        .details {
+          display: flex;
+          height: 128px;
+          overflow: auto;
+          padding: 8px 16px 0 16px;
+          border: 1px solid #e8ebef;
+        }
 
-     .details {
-      display: flex;
-      height: 128px;
-      overflow: auto;
-      padding: 8px 16px 0 16px;
-      border: 1px solid #e8ebef;
-     }
+        .paid-via {
+          margin: 8px 0;
+        }
 
-     .paid-via {
-       margin: 8px 0;
-     }
+        .paid-via-value {
+          font-weight: 500;
+        }
 
-     .paid-via-value {
-       font-weight: 500;
-     }
+        .receipt-icon {
+          color: #4285f4;
+          cursor: pointer;
+        }
 
-     .receipt-icon {
-       color: #4285f4;
-       cursor: pointer;
-     }
-
-     .waiting {
-       color: #FFA000;
-     }
-    </style>`
-  ];
+        .waiting {
+          color: #ffa000;
+        }
+      `
+    ];
+  }
 
   render() {
     const { items } = this;
@@ -125,7 +123,7 @@ class HTElementsOrders extends LitElement {
                 <vaadin-grid .items="${items}" .rowDetailsRenderer="${
               this.rowDetailsRenderer
             }">
-                <vaadin-grid-column width="50px" header="№" .renderer="${
+                <vaadin-grid-column width="70px" header="№" .renderer="${
                   this.numberRenderer
                 }"></vaadin-grid-column>
                 <vaadin-grid-column width="170px" header="Статус" .renderer="${
@@ -134,7 +132,7 @@ class HTElementsOrders extends LitElement {
                 <vaadin-grid-column width="100px"  header="Тип" .renderer="${
                   this.typeRenderer
                 }"></vaadin-grid-column>
-                <vaadin-grid-column width="120px" header="Дата" .renderer="${
+                <vaadin-grid-column width="130px" header="Дата" .renderer="${
                   this.dateRenderer
                 }"></vaadin-grid-column>
                 <vaadin-grid-column width="80px" header="Сумма" .renderer="${
@@ -143,7 +141,7 @@ class HTElementsOrders extends LitElement {
                 <vaadin-grid-column width="160px" header="Детали" .renderer="${
                   this._boundToggleDetailsRenderer
                 }"></vaadin-grid-column>  
-                <vaadin-grid-column width="100px" header="Документы" .renderer="${
+                <vaadin-grid-column width="110px" header="Документы" .renderer="${
                   this.receiptRenderer
                 }"></vaadin-grid-column>       
             </div>
