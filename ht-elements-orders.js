@@ -126,7 +126,7 @@ class HTElementsOrders extends LitElement {
                 <vaadin-grid-column width="70px" header="№" .renderer="${
                   this.numberRenderer
                 }"></vaadin-grid-column>
-                <vaadin-grid-column width="170px" header="Статус" .renderer="${
+                <vaadin-grid-column width="180px" header="Статус" .renderer="${
                   this.statusRenderer
                 }"></vaadin-grid-column>
                 <vaadin-grid-column width="100px"  header="Тип" .renderer="${
