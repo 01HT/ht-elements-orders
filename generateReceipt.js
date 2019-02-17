@@ -121,9 +121,9 @@ export function generateReceipt(orderData) {
     <body>
     <div id="logo">
         <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 300 300">
-        <circle cx="67.622" cy="54.919" r="54.919" fill="#b3b3b3"/>
-        <circle cx="67.622" cy="245.081" r="54.919" fill="#039be5"/>
-        <circle cx="232.378" cy="149.809" r="54.919" fill="#83b735"/>
+          <circle cx="67.622" cy="54.919" r="54.919" fill="#b3b3b3"/>
+          <circle cx="67.622" cy="245.081" r="54.919" fill="#83b735"/>
+          <circle cx="232.378" cy="149.809" r="54.919" fill="#039be5"/>
         </svg>
     </div>
     <h1>Invoice</h1>
