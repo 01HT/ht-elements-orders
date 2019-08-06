@@ -97,11 +97,11 @@ class HTElementsOrdersItemDetails extends LitElement {
             data.itemNumber
           }">
                     <ht-image placeholder="${
-                      window.cloudinaryURL
+                      window.appConfig.cloudinary.url
                     }/image/upload/c_scale,f_auto,w_60/v${data.image.version}/${
             data.image.public_id
           }.jpg" image="${
-            window.cloudinaryURL
+            window.appConfig.cloudinary.url
           }/image/upload/c_scale,f_auto,w_480/v${data.image.version}/${
             data.image.public_id
           }.jpg" size="16x9"></ht-image>
